@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Chụp ảnh gửi máy tính — ScanQRDownloader</title>
+  <link rel="stylesheet" href="/css/capture.css" />
+</head>
+<body>
+  <main class="capture-shell">
+    <header class="cap-header">
+      <div class="cap-brand">
+        <div class="cap-logo" aria-hidden="true">📷</div>
+        <div>
+          <h1>Chụp ảnh gửi máy tính</h1>
+          <p id="serverDirText" class="cap-sub">Đang kết nối máy chủ LAN...</p>
+        </div>
+      </div>
+      <span id="savedBadge" class="count-badge">0 ảnh</span>
+    </header>
+
+    <!-- Prefix / Chapter tag -->
+    <section class="cap-card">
+      <label class="field-label" for="prefixInput">Nhãn / Tên sách hoặc chương (tùy chọn)</label>
+      <input
+        id="prefixInput"
+        class="field-input"
+        type="text"
+        placeholder="Ví dụ: Sach_A_Chuong1"
+        autocomplete="off"
+      />
+      <p class="field-hint">Ảnh lưu về máy tính sẽ tự đặt tên dạng: <code>nhan_ngaygio_01.jpg</code></p>
+    </section>
+
+    <!-- Primary Capture Controls -->
+    <section class="cap-card actions-card">
+      <button id="cameraCaptureBtn" class="btn-capture-primary" type="button">
+        <span class="btn-icon-lg">📸</span>
+        <span>
+          <strong>Chụp ảnh &amp; Gửi ngay</strong>
+          <small>Mở camera sau độ nét cao, tự động lưu về máy tính</small>
+        </span>
+      </button>
+
+      <div class="secondary-row">
+        <button id="galleryUploadBtn" class="btn-capture-secondary" type="button">
+          🖼️ Chọn nhiều ảnh từ máy
+        </button>
+        <button id="liveCameraBtn" class="btn-capture-secondary" type="button" hidden>
+          🎥 Camera trực tiếp
+        </button>
+      </div>
+
+      <!-- Native mobile camera input (works reliably over HTTP LAN on iOS & Android!) -->
+      <input id="cameraInput" type="file" accept="image/*" capture="environment" hidden />
+      <input id="galleryInput" type="file" accept="image/*,.heic,.heif" multiple hidden />
+
+      <!-- Upload progress indicator -->
+      <div id="uploadStatusBox" class="upload-status" hidden>
+        <div class="spinner" aria-hidden="true"></div>
+        <span id="uploadStatusText">Đang gửi ảnh lên máy tính...</span>
+      </div>
+    </section>
+
+    <!-- Optional Live Camera View (shown only when secure context supports getUserMedia) -->
+    <section id="liveCameraSection" class="cap-card live-cam-card" hidden>
+      <div class="live-cam-header">
+        <strong>Camera trực tiếp</strong>
+        <button id="closeLiveCamBtn" class="btn-mini" type="button">Đóng ✕</button>
+      </div>
+      <div class="video-wrap">
+        <video id="liveVideo" autoplay playsinline muted></video>
+      </div>
+      <button id="snapLiveBtn" class="btn-capture-primary btn-snap" type="button">
+        ⚪ Chụp &amp; Gửi ảnh này
+      </button>
+      <canvas id="snapCanvas" hidden></canvas>
+    </section>
+
+    <!-- Latest QR Scan Feedback -->
+    <section id="lastResultCard" class="cap-card result-card" hidden>
+      <div class="result-header">
+        <strong>Kết quả ảnh vừa gửi</strong>
+        <span id="lastResultTag" class="tag">Đã lưu</span>
+      </div>
+      <div id="lastResultBody" class="result-body"></div>
+    </section>
+
+    <!-- Recent Saved Gallery on Server -->
+    <section class="cap-card">
+      <div class="gallery-header">
+        <h2>Ảnh đã lưu trên máy tính</h2>
+        <button id="refreshListBtn" class="btn-mini" type="button">Làm mới</button>
+      </div>
+      <div id="capturesList" class="captures-list">
+        <p class="empty-msg">Chưa có ảnh nào trong thư mục lưu chụp.</p>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast" class="cap-toast" hidden></div>
+
+  <script type="module" src="/js/capture.js"></script>
+</body>
+</html>
